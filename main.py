@@ -64,6 +64,23 @@ def search_vendors(request: VendorSearchRequest, service: VendorService = Depend
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# ---- Telegram Integration ----
+
+from src.services.telegram_service import TelegramService
+
+def get_telegram_service():
+    return TelegramService()
+
+@app.post("/v1/telegram/webhook")
+async def telegram_webhook(update: dict, service: TelegramService = Depends(get_telegram_service)):
+    """
+    Telegram Webhook Endpoint.
+    Receives JSON updates from Telegram.
+    """
+    # Run in background or directly (Telegram needs 200 OK fast)
+    service.handle_incoming_update(update)
+    return {"status": "ok"}
+
 # ---- WhatsApp Integration ----
 
 @app.post("/v1/whatsapp/webhook")

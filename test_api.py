@@ -122,11 +122,48 @@ def test_whatsapp():
     resp = requests.post(f"{BASE_URL}/v1/whatsapp/test", params={"message": msg_unknown, "sender": "whatsapp:+919988776655"})
     print(f"  Response: {resp.json().get('reply')[:100]}...")
 
+def test_telegram():
+    print("\nTesting Telegram Integration...")
+    # Mock Telegram Update
+    payload = {
+        "update_id": 10000,
+        "message": {
+            "date": 1441645532,
+            "chat": {
+                "last_name": "Test",
+                "id": 111222333,
+                "type": "private",
+                "first_name": "TelegramUser",
+                "username": "TestUser"
+            },
+            "message_id": 1365,
+            "from": {
+                "last_name": "Test",
+                "id": 111222333,
+                "first_name": "TelegramUser",
+                "username": "TestUser"
+            },
+            "text": "Find me a cafe in indulgent"
+        }
+    }
+    
+    try:
+        resp = requests.post(f"{BASE_URL}/v1/telegram/webhook", json=payload)
+        print(f"  Status: {resp.status_code}")
+        print(f"  Response: {resp.json()}")
+        if resp.status_code == 200:
+            print("  [OK] Telegram Webhook accepted update")
+        else:
+            print("  [FAIL] Webhook rejected update")
+    except Exception as e:
+        print(f"  [Error] {e}")
+
 if __name__ == "__main__":
     if wait_for_api():
         test_onboard()
         test_search()
         test_beckn()
         test_whatsapp()
+        test_telegram()
     else:
         print("API failed to start.")

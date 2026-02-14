@@ -14,8 +14,12 @@ class Settings(BaseSettings):
     TWILIO_AUTH_TOKEN: str = ""
     TWILIO_PHONE_NUMBER: str = ""
     
+    # Telegram Settings
+    TELEGRAM_BOT_TOKEN: str = ""
+    
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 @lru_cache()
 def get_settings():
