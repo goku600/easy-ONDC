@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: ondc_setu_api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for live reloading during development
+      - .:/app
+      # Persist data volume
+      - chroma_data:/app/data
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
