@@ -1,8 +1,15 @@
 import requests
 import time
 import json
+import argparse
+import sys
 
-BASE_URL = "http://127.0.0.1:8000"
+# Parse command line arguments
+parser = argparse.ArgumentParser(description="Test ONDC-Setu API")
+parser.add_argument("--url", default="http://127.0.0.1:8000", help="Base URL of the API (e.g., https://my-app.onrender.com)")
+args = parser.parse_args()
+
+BASE_URL = args.url.rstrip('/')
 
 def wait_for_api():
     print("Waiting for API to start...")
