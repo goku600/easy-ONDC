@@ -68,14 +68,20 @@ Classify the intent into one of these categories:
 2. "search" -> If the user is looking for a product, service, or vendor.
 3. "unknown" -> If the intent is unclear.
 
-Return ONLY the category name (onboard, search, or unknown). No other text."""
+Return ONLY the category name (onboard, search, or unknown). 
+Do NOT return "Category: search" or any punctuation. Just the word."""
 
         try:
             response = self.client.models.generate_content(
                 model=settings.GEMINI_MODEL_NAME,
                 contents=prompt
             )
-            intent = response.text.strip().lower()
+            raw_intent = response.text.strip().lower()
+            print(f"DEBUG: Message: '{message}' -> Classified Intent: '{raw_intent}'")
+            
+            # Basic cleanup
+            intent = raw_intent.replace('"', '').replace("'", "").rstrip('.')
+            
             if intent not in ["onboard", "search", "unknown"]:
                 return "unknown"
             return intent

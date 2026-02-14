@@ -110,7 +110,11 @@ def test_whatsapp():
     print("  -> Testing Search Intent...")
     msg_search = "Find me an electronics shop in Indiranagar"
     resp = requests.post(f"{BASE_URL}/v1/whatsapp/test", params={"message": msg_search, "sender": "whatsapp:+919988776655"})
-    print(f"  Response: {resp.json().get('reply')[:100]}...")
+    try:
+        print(f"  Response: {resp.json().get('reply')[:100]}...")
+    except json.JSONDecodeError:
+        print(f"  [FAIL] Invalid JSON Response. Status Code: {resp.status_code}")
+        print(f"  Raw Output: {resp.text[:500]}")
     
     # 3. Test Unknown/Ambiguous
     print("  -> Testing Ambiguous Intent...")
