@@ -127,3 +127,22 @@ Open your bot in Telegram and chat naturally!
 
 ## ⚠️ Notes for Free Tier
 On Render's Free Tier, the **database resets** every time the server restarts (ephemeral storage). For persistent data, upgrade to a Paid Plan with a "Render Disk" or use an external database like MongoDB/PostgreSQL.
+
+---
+
+## 🌍 Connecting to Real ONDC Network (Post-License)
+Currently, this node runs in **Mock/Simulation Mode**. To connect to the real ONDC network (Stage/Prod) after obtaining government approval:
+
+1.  **Register on ONDC**: Sign up on the [ONDC Staging Registry](https://staging.registry.ondc.org/).
+2.  **Generate Signing Keys**: You must generate an **Ed25519** key pair.
+    *   **Private Key**: Used to sign every request you send.
+    *   **Public Key**: Shared with ONDC Registry so others can verify you.
+3.  **Implement Security**:
+    *   Update `src/beckn_service.py` to sign specific HTTP headers (`Authorization`) using your Private Key.
+    *   Validate incoming signatures from other nodes using their Public Keys (fetched from Registry).
+4.  **Update Configuration**:
+    *   Change `BPP_URI` to your public Render URL.
+    *   Set `ONDC_GATEWAY_URL` to `https://staging.gateway.ondc.org`.
+    *   Subscribe to the Gateway so it knows you exist.
+
+*This project provides the **Logic Layer** (GenAI + Catalog). The **Security Layer** (Request Signing) must be added before going live on the national network.*
