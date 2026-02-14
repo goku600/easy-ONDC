@@ -145,4 +145,14 @@ Currently, this node runs in **Mock/Simulation Mode**. To connect to the real ON
     *   Set `ONDC_GATEWAY_URL` to `https://staging.gateway.ondc.org`.
     *   Subscribe to the Gateway so it knows you exist.
 
-*This project provides the **Logic Layer** (GenAI + Catalog). The **Security Layer** (Request Signing) must be added before going live on the national network.*
+
+---
+
+## 🔮 Production Roadmap (What's Next?)
+To take this from a **Prototype** to a **National Scale Node**, consider these upgrades:
+
+1.  **Database Persistence**: Move from local ChromaDB files (which reset on auto-deploy) to a persistent cloud vector database (e.g., Pinecone, Weaviate, or Render Disk).
+2.  **Webhook Security**: Verify the `X-Telegram-Bot-Api-Secret-Token` header to ensure requests are actually coming from Telegram.
+3.  **Multilingual Support**: Update the Gemini System Prompt to handle Hindi, Kannada, Tamil, etc., for broader rural adoption.
+4.  **Analytics**: distinct logs for "Search Misses" (what people want but you don't have) to recruit better vendors.
+
