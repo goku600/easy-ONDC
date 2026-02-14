@@ -84,11 +84,15 @@ Do NOT return "Category: search" or any punctuation. Just the word."""
                 contents=prompt
             )
             raw = response.text.strip().lower()
-            # Cleanup
-            intent = raw.replace('"', '').replace("'", "").rstrip('.')
-            if intent not in ["onboard", "search", "unknown"]:
-                return "unknown"
-            return intent
+            print(f"DEBUG Intent Raw: {raw}")
+            
+            # More robust matching
+            if "onboard" in raw:
+                return "onboard"
+            if "search" in raw:
+                return "search"
+                
+            return "unknown"
         except Exception as e:
             print(f"Intent classification failed: {e}")
             return "unknown"
